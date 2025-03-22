@@ -1,0 +1,22 @@
+{
+  "name": "terrathon-cadence",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.0.15",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.15",
+    "vite": "^6.2.0"
+  },
+  "dependencies": {
+    "gsap": "^3.12.7",
+    "locomotive-scroll": "^4.1.4"
+  }
+}
