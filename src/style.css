@@ -1,4 +1,4 @@
-/* Reset + Global */
+/* Reset some default styles */
 * {
   margin: 0;
   padding: 0;
@@ -6,31 +6,28 @@
 }
 
 body {
-  font-family: Georgia, serif;
-  background-color: #b2eac6;
-  color: #295f6b;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  font-family: 'Arial', sans-serif;
+  background-color: #b3eac2; /* Mint green background */
+  color: #003366; /* Dark teal text */
+  line-height: 1.6;
 }
 
-/* Navbar */
-.navbar {
-  background-color: #b2eac6;
+/* Header */
+.header {
   padding: 1rem 2rem;
+  background-color: #b3eac2;
 }
 
-.navbar ul {
-  list-style: none;
+.nav-container {
   display: flex;
-  gap: 1rem;
   justify-content: flex-end;
 }
 
-.navbar a {
+.nav a {
   text-decoration: none;
-  color: #295f6b;
+  color: #003366;
   font-weight: bold;
+  margin-left: 1.5rem;
 }
 
 /* Hero Section */
@@ -40,71 +37,119 @@ body {
 }
 
 .hero h1 {
-  font-size: 4rem;
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #336666;
   margin-bottom: 2rem;
-  color: #295f6b;
+}
+
+.cta-button-hero {
+  background-color: #002b5b;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  font-weight: bold;
+}
+
+.cta-button-hero:hover {
+  background-color: #001f3f;
+}
+
+.skyline img {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 2rem;
+}
+
+/* Input Section */
+.input-section {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+
+.input-section h2 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #336666;
+}
+
+.input-field {
+  margin-bottom: 1.5rem;
+}
+
+.input-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.input-field input {
+  padding: 0.75rem 1rem;
+  border-radius: 15px;
+  border: 2px solid #003366;
+  width: 280px;
+  font-size: 1rem;
+  box-shadow: 4px 4px #003366;
 }
 
 .cta-button {
   background-color: #003366;
   color: #ffffff;
   padding: 1rem 2rem;
-  border: none;
-  border-radius: 2rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  border-radius: 15px;
   cursor: pointer;
-  margin-bottom: 3rem;
+  box-shadow: 4px 4px #001f3f;
+  transition: background-color 0.3s ease;
 }
 
 .cta-button:hover {
-  background-color: #002244;
+  background-color: #001f3f;
 }
 
-/* Cityscape Image */
-.cityscape img {
-  max-width: 600px;
-  width: 100%;
-}
-
-/* Input Section */
-.input-section {
-  text-align: center;
-  padding: 3rem 2rem;
-}
-
-.input-section h2 {
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #295f6b;
-}
-
-.input-group {
-  margin: 1rem 0;
-}
-
-.input-group label {
-  display: block;
+.result-display {
+  margin-top: 2rem;
   font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+  color: #003366;
 }
 
-.input-group input {
-  width: 300px;
-  padding: 1rem;
-  border-radius: 2rem;
-  border: 2px solid #000;
-  box-shadow: 4px 4px 0 #003366;
-  font-size: 1rem;
+/* Decorations */
+.decorations {
+  position: relative;
+  margin-top: 3rem;
+}
+
+.decorations .cells {
+  width: 100px;
+  position: absolute;
+  top: -50px;
+  right: 50px;
+}
+
+.decorations .seaweed-left {
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  width: 120px;
+}
+
+.decorations .seaweed-right {
+  position: absolute;
+  bottom: 0;
+  right: 50px;
+  width: 120px;
 }
 
 /* Footer */
-footer {
-  background-color: #000000;
-  color: #ffffff;
-  font-size: 0.75rem;
-  padding: 0.5rem 1rem;
+.footer {
   display: flex;
   justify-content: space-between;
-  margin-top: auto;
+  background-color: #000000;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  font-size: 0.9rem;
 }

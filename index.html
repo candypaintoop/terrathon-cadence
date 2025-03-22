@@ -8,25 +8,26 @@
 </head>
 <body>
 
-  <!-- Header -->
-  <header class="navbar">
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Our Company</a></li>
-      </ul>
-    </nav>
+  <!-- Header with Navigation -->
+  <header class="header">
+    <div class="nav-container">
+      <nav class="nav">
+        <a href="#">Home</a>
+        <a href="#">Our Company</a>
+      </nav>
+    </div>
   </header>
 
   <!-- Hero Section -->
   <section class="hero">
     <h1>Ecosphere-AI</h1>
-    <button class="cta-button">
-      AI-DRIVEN ALGAE WALL SYSTEM FOR <br />SUSTAINABLE CITIES
+    <button class="cta-button-hero">
+      AI-DRIVEN ALGAE WALL SYSTEM FOR SUSTAINABLE CITIES
     </button>
 
-    <div class="cityscape">
-      <img src="cityscape.png" alt="Cityscape" />
+    <!-- City Skyline Illustration -->
+    <div class="skyline">
+      <img src="city-skyline.png" alt="City Skyline" />
     </div>
   </section>
 
@@ -34,22 +35,33 @@
   <section class="input-section">
     <h2>Input your data</h2>
 
-    <div class="input-group">
-      <label for="grey-water">grey water :</label>
-      <input type="text" id="grey-water" placeholder="Enter value" />
+    <div class="input-field">
+      <label for="grey-water">Grey Water (liters):</label>
+      <input type="number" id="grey-water" placeholder="Enter grey water" />
     </div>
 
-    <div class="input-group">
-      <label for="wall-area">area of the wall:</label>
-      <input type="text" id="wall-area" placeholder="Enter value" />
+    <div class="input-field">
+      <label for="wall-area">Area of the Wall (m²):</label>
+      <input type="number" id="wall-area" placeholder="Enter wall area" />
+    </div>
+
+    <button class="cta-button" onclick="calculate()">Calculate Output</button>
+
+    <!-- Output Display -->
+    <div id="result" class="result-display"></div>
+
+    <!-- Optional decorative images -->
+    <div class="decorations">
+      <img src="green-cells.png" alt="Green Cells" class="cells" />
+      <img src="seaweed-left.png" alt="Seaweed Left" class="seaweed-left" />
+      <img src="seaweed-right.png" alt="Seaweed Right" class="seaweed-right" />
     </div>
   </section>
 
   <!-- Footer -->
-  <footer>
-    <div class="footer-left">Terms & Support</div>
-    <div class="footer-right">Designed with Canva</div>
+  <footer class="footer">
   </footer>
 
+  <script src="src/main.js"></script>
 </body>
 </html>
