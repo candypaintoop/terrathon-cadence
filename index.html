@@ -27,22 +27,29 @@
 
     <!-- City Skyline Illustration -->
     <div class="skyline">
-      <img src="city-skyline.png" alt="City Skyline" />
+      <img src="assets/WhatsApp Image 2025-03-22 at 23.04.06_dc22fbc9.jpg" alt="City Skyline" />
     </div>
   </section>
 
+  <div id="page-loader" class="loader-wrapper">
+    <div class="loader"></div>
+    <h2>Processing...</h2>
+  </div>
+  
   <!-- Input Section -->
   <section class="input-section">
     <h2>Input your data</h2>
 
     <div class="input-field">
-      <label for="grey-water">Grey Water (liters):</label>
-      <input type="number" id="grey-water" placeholder="Enter grey water" />
+      <input type="text" id="location" placeholder="Enter Location" />
     </div>
 
     <div class="input-field">
-      <label for="wall-area">Area of the Wall (m²):</label>
-      <input type="number" id="wall-area" placeholder="Enter wall area" />
+      <input type="number" id="algae-amount" placeholder="Enter Algae Amount(kg)" />
+    </div>
+
+    <div class="input-field">
+      <input type="number" id="wall-area" placeholder="Enter Wall Area(m^2)" />
     </div>
 
     <button class="cta-button" onclick="calculate()">Calculate Output</button>
@@ -52,9 +59,9 @@
 
     <!-- Optional decorative images -->
     <div class="decorations">
-      <img src="green-cells.png" alt="Green Cells" class="cells" />
-      <img src="seaweed-left.png" alt="Seaweed Left" class="seaweed-left" />
-      <img src="seaweed-right.png" alt="Seaweed Right" class="seaweed-right" />
+      <img src="assets/WhatsApp Image 2025-03-22 at 23.04.06_c995aa5b.jpg" alt="Green Cells" class="cells" />
+      <img src="assets/WhatsApp Image 2025-03-22 at 23.04.06_20bb6e2b.jpg" alt="Seaweed Left" class="seaweed-left" />
+      <img src="assets/WhatsApp Image 2025-03-22 at 23.04.06_ba79a2de.jpg" alt="Seaweed Right" class="seaweed-right" />
     </div>
   </section>
 
