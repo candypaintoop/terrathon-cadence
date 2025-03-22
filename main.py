@@ -14,23 +14,37 @@ def get_coordinates(location):
     return result["latitude"], result["longitude"]
 
 def get_weather_data(lat, lon):
-    weather_url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&hourly=temperature_2m,relative_humidity_2m,precipitation,sunshine_duration&timezone=auto"
-    
+    # Requesting both hourly and daily data
+    weather_url = (
+        f"https://api.open-meteo.com/v1/forecast?"
+        f"latitude={lat}&longitude={lon}"
+        f"&hourly=temperature_2m,relative_humidity_2m"
+        f"&daily=precipitation_sum,sunshine_duration"
+        f"&timezone=auto"
+    )
+
     response = requests.get(weather_url)
     data = response.json()
 
-    # Extract current/latest data from hourly arrays
+    # Extract hourly temperature & humidity
     hourly = data.get("hourly", {})
-    temperature = hourly.get("temperature_2m", [None])[-1]
-    humidity = hourly.get("relative_humidity_2m", [None])[-1]
-    rainfall = hourly.get("precipitation", [None])[-1]
-    sunlight_hours = hourly.get("sunshine_duration", [None])[-1]
+    temperatures = hourly.get("temperature_2m", [])
+    humidities = hourly.get("relative_humidity_2m", [])
+
+    # Get the latest value (you can change to average if needed)
+    temperature = temperatures[-1] if temperatures else None
+    humidity = humidities[-1] if humidities else None
+
+    # Extract daily rainfall & sunshine hours (first value for today)
+    daily = data.get("daily", {})
+    rainfall = daily.get("precipitation_sum", [None])[0]
+    sunlight_hours = daily.get("sunshine_duration", [None])[0]
 
     return {
         "temperature": temperature,
         "humidity": humidity,
         "rainfall": rainfall,
-        "sunlight_hours": sunlight_hours
+        "sunlight_hours": sunlight_hours/3600
     }
 
 def simulate_water_quality(location):
@@ -62,7 +76,7 @@ def get_combined_data(location):
     return result
 
 # Example
-location = "New York"
+location = "Bangalore"
 result = get_combined_data(location)
 
 
@@ -72,3 +86,4 @@ with open('model_pkl', 'rb') as file:
 
 predictions = model.predict([[result["weather"]["temperature"],result["weather"]["humidity"],result["weather"]["sunlight_hours"],result["weather"]["rainfall"],result["water_quality"]["ph"],result["water_quality"]["nitrogen"],result["water_quality"]["phosphorus"],result["water_quality"]["bod"]]])
 print(predictions)
+print([[result["weather"]["temperature"],result["weather"]["humidity"],result["weather"]["sunlight_hours"],result["weather"]["rainfall"],result["water_quality"]["ph"],result["water_quality"]["nitrogen"],result["water_quality"]["phosphorus"],result["water_quality"]["bod"]]])
