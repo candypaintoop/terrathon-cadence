@@ -31,27 +31,45 @@ async function calculate() {
 
     if (response.ok) {
       document.getElementById("result").innerHTML = `
-        <h3>Prediction Result:</h3>
-        <p><strong>Algae Type:</strong> ${data.algae_type}</p>
-        <p><strong>Panel Type:</strong> ${data.panel_type}</p>
+      <div class="result-container">
 
-        <h4>Weather Information:</h4>
-        <p><strong>Temperature:</strong> ${data.weather.temperature} °C</p>
-        <p><strong>Humidity:</strong> ${data.weather.humidity} %</p>
-        <p><strong>Rainfall:</strong> ${data.weather.rainfall} mm</p>
-        <p><strong>Sunlight Hours:</strong> ${data.weather.sunlight_hours} hours</p>
+  <div class="result-box prediction">
+    <!-- Priority Badge (no text) -->
+    <div class="priority-badge"></div>
+    
+    <h3>Prediction Result:</h3>
+    <p><strong>Algae Type:</strong> ${data.algae_type}</p>
+    <p><strong>Panel Type:</strong> ${data.panel_type}</p>
+  </div>
 
-        <h4>Water Quality Data:</h4>
-        <p><strong>BOD:</strong> ${data.water_quality.bod} mg/L</p>
-        <p><strong>pH:</strong> ${data.water_quality.ph}</p>
-        <p><strong>Nitrogen:</strong> ${data.water_quality.nitrogen} mg/L</p>
-        <p><strong>Phosphorus:</strong> ${data.water_quality.phosphorus} mg/L</p>
+  <div class="result-box weather-info">
+    <h4>Weather Information:</h4>
+    <p><strong>Temperature:</strong> ${data.weather.temperature} °C</p>
+    <p><strong>Humidity:</strong> ${data.weather.humidity} %</p>
+    <p><strong>Rainfall:</strong> ${data.weather.rainfall} mm</p>
+    <p><strong>Sunlight Hours:</strong> ${data.weather.sunlight_hours} hours</p>
+  </div>
+
+  <div class="result-box water-quality">
+    <h4>Water Quality Data:</h4>
+    <p><strong>BOD:</strong> ${data.water_quality.bod} mg/L</p>
+    <p><strong>pH:</strong> ${data.water_quality.ph}</p>
+    <p><strong>Nitrogen:</strong> ${data.water_quality.nitrogen} mg/L</p>
+    <p><strong>Phosphorus:</strong> ${data.water_quality.phosphorus} mg/L</p>
+  </div>
+
+</div>
+
       `;
     } else {
       document.getElementById("result").innerHTML = `
         <p>Error: ${data.error}</p>
       `;
     }
+    document.querySelector(".result-container").scrollIntoView({
+      behavior: "smooth",
+      block: "end"
+    });
   } catch (error) {
     console.error("Error:", error);
     document.getElementById("result").innerHTML = `
