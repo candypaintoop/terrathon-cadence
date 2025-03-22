@@ -84,6 +84,15 @@ with open('model_pkl', 'rb') as file:
     model = pickle.load(file)
 
 
-predictions = model.predict([[result["weather"]["temperature"],result["weather"]["humidity"],result["weather"]["sunlight_hours"],result["weather"]["rainfall"],result["water_quality"]["ph"],result["water_quality"]["nitrogen"],result["water_quality"]["phosphorus"],result["water_quality"]["bod"]]])
-print(predictions)
-print([[result["weather"]["temperature"],result["weather"]["humidity"],result["weather"]["sunlight_hours"],result["weather"]["rainfall"],result["water_quality"]["ph"],result["water_quality"]["nitrogen"],result["water_quality"]["phosphorus"],result["water_quality"]["bod"]]])
+predictions = model.predict([[result["weather"]["temperature"],result["weather"]["humidity"],result["weather"]["sunlight_hours"],result["weather"]["rainfall"],result["water_quality"]["ph"],result["water_quality"]["nitrogen"],result["water_quality"]["phosphorus"],result["water_quality"]["bod"]]])[0]
+
+algae_dict = {0:"Chlorella",1:"Dunaliella",2:"Haematococcus",3:"Scenedesmus",4:"Spirulina"}
+panel_dict = {0:"Flat Panel",1:"Tubular",4:"Vertical Column",5:"V-Shaped"}
+
+with open('panel_model','rb') as file2:
+    model2 = pickle.load(file2)
+
+algae_amount = round(random.uniform(1,100),5)
+wall_size = round(random.uniform(10,100),5)
+predictions2 = model2.predict([[algae_amount,wall_size,result["weather"]["temperature"],result["weather"]["sunlight_hours"],predictions]])[0]
+print(algae_dict[predictions],panel_dict[predictions2])
