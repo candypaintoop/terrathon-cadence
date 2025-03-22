@@ -1,48 +1,64 @@
-// Wait until the DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('Document loaded and ready!');
-  
-  // Attach event listener to the calculate button
-  const calcButton = document.querySelector('.cta-button');
-  if (calcButton) {
-    calcButton.addEventListener('click', calculate);
-  }
-});
+async function calculate() {
+  const location = document.getElementById("location").value;
+  const algaeAmount = parseFloat(document.getElementById("algae-amount").value);
+  const wallArea = parseFloat(document.getElementById("wall-area").value);
 
-// Calculate function to process user input
-function calculate() {
-  // Get input values
-  const greyWaterInput = document.getElementById('grey-water');
-  const wallAreaInput = document.getElementById('wall-area');
-  const resultDiv = document.getElementById('result');
-
-  const greyWater = parseFloat(greyWaterInput.value);
-  const wallArea = parseFloat(wallAreaInput.value);
-
-  console.log(`Grey Water: ${greyWater}, Wall Area: ${wallArea}`); // Debugging logs
-
-  // Input validation
-  if (isNaN(greyWater) || greyWater <= 0) {
-    resultDiv.textContent = "⚠️ Please enter a valid amount of Grey Water (liters).";
+  if (!location || isNaN(algaeAmount) || isNaN(wallArea)) {
+    alert("Please fill in all fields correctly.");
     return;
   }
 
-  if (isNaN(wallArea) || wallArea <= 0) {
-    resultDiv.textContent = "⚠️ Please enter a valid Wall Area (m²).";
-    return;
+  const payload = {
+    location: location,
+    algae_amount: algaeAmount,
+    wall_area: wallArea
+  };
+
+  // Show the loader
+  const loader = document.getElementById("page-loader");
+  loader.style.display = "flex";
+
+  try {
+    const response = await fetch("http://127.0.0.1:5000/predict", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      document.getElementById("result").innerHTML = `
+        <h3>Prediction Result:</h3>
+        <p><strong>Algae Type:</strong> ${data.algae_type}</p>
+        <p><strong>Panel Type:</strong> ${data.panel_type}</p>
+
+        <h4>Weather Information:</h4>
+        <p><strong>Temperature:</strong> ${data.weather.temperature} °C</p>
+        <p><strong>Humidity:</strong> ${data.weather.humidity} %</p>
+        <p><strong>Rainfall:</strong> ${data.weather.rainfall} mm</p>
+        <p><strong>Sunlight Hours:</strong> ${data.weather.sunlight_hours} hours</p>
+
+        <h4>Water Quality Data:</h4>
+        <p><strong>BOD:</strong> ${data.water_quality.bod} mg/L</p>
+        <p><strong>pH:</strong> ${data.water_quality.ph}</p>
+        <p><strong>Nitrogen:</strong> ${data.water_quality.nitrogen} mg/L</p>
+        <p><strong>Phosphorus:</strong> ${data.water_quality.phosphorus} mg/L</p>
+      `;
+    } else {
+      document.getElementById("result").innerHTML = `
+        <p>Error: ${data.error}</p>
+      `;
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    document.getElementById("result").innerHTML = `
+      <p>An unexpected error occurred. Check console for details.</p>
+    `;
+  } finally {
+    // Hide the loader after everything is done
+    loader.style.display = "none";
   }
-
-  // Example calculation logic (customize as needed!)
-  // Let's assume the system filters X units of CO2 for each liter and square meter combined
-  const co2ReductionFactor = 0.8; // hypothetical factor
-  const output = (greyWater * wallArea * co2ReductionFactor).toFixed(2);
-
-  // Show the output result
-  resultDiv.innerHTML = `
-    ✅ <strong>Estimated CO2 Reduction:</strong> ${output} units
-  `;
-
-  // Optional: Reset input fields
-  // greyWaterInput.value = '';
-  // wallAreaInput.value = '';
 }
