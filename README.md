@@ -4,8 +4,8 @@ The AI continuously learns, improving performance with every iteration (hopeful
 
 Open 2 terminals
 
-run command: py main.py
+run command: py main.py  
 on one terminal
 
-run command: npm run dev
+run command: npm run dev  
 on another terminal
