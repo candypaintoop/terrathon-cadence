@@ -30,42 +30,44 @@ async function calculate() {
     const data = await response.json();
 
     if (response.ok) {
+      // Render the results
       document.getElementById("result").innerHTML = `
-      <div class="result-container">
+        <div class="result-container">
+          <div class="result-box prediction">
+            <div class="priority-badge"></div>
+            <h3>Prediction Result:</h3>
+            <p><strong>Algae Type:</strong> ${data.algae_type}</p>
+            <p><strong>Panel Type:</strong> ${data.panel_type}</p>
+          </div>
 
-  <div class="result-box prediction">
-    <!-- Priority Badge (no text) -->
-    <div class="priority-badge"></div>
-    
-    <h3>Prediction Result:</h3>
-    <p><strong>Algae Type:</strong> ${data.algae_type}</p>
-    <p><strong>Panel Type:</strong> ${data.panel_type}</p>
-  </div>
+          <div class="result-box weather-info">
+            <h4>Weather Information:</h4>
+            <p><strong>Temperature:</strong> ${data.weather.temperature} °C</p>
+            <p><strong>Humidity:</strong> ${data.weather.humidity} %</p>
+            <p><strong>Rainfall:</strong> ${data.weather.rainfall} mm</p>
+            <p><strong>Sunlight Hours:</strong> ${data.weather.sunlight_hours} hours</p>
+          </div>
 
-  <div class="result-box weather-info">
-    <h4>Weather Information:</h4>
-    <p><strong>Temperature:</strong> ${data.weather.temperature} °C</p>
-    <p><strong>Humidity:</strong> ${data.weather.humidity} %</p>
-    <p><strong>Rainfall:</strong> ${data.weather.rainfall} mm</p>
-    <p><strong>Sunlight Hours:</strong> ${data.weather.sunlight_hours} hours</p>
-  </div>
+          <div class="result-box water-quality">
+            <h4>Water Quality Data:</h4>
+            <p><strong>BOD:</strong> ${data.water_quality.bod} mg/L</p>
+            <p><strong>pH:</strong> ${data.water_quality.ph}</p>
+            <p><strong>Nitrogen:</strong> ${data.water_quality.nitrogen} mg/L</p>
+            <p><strong>Phosphorus:</strong> ${data.water_quality.phosphorus} mg/L</p>
+          </div>
 
-  <div class="result-box water-quality">
-    <h4>Water Quality Data:</h4>
-    <p><strong>BOD:</strong> ${data.water_quality.bod} mg/L</p>
-    <p><strong>pH:</strong> ${data.water_quality.ph}</p>
-    <p><strong>Nitrogen:</strong> ${data.water_quality.nitrogen} mg/L</p>
-    <p><strong>Phosphorus:</strong> ${data.water_quality.phosphorus} mg/L</p>
-  </div>
-
-</div>
-
+        <div class="result-box image">
+          <h4>Generated Image:</h4>
+          <img src="data:image/png;base64,${data.image}" alt="Generated Image" />
+        </div>
+        </div>
       `;
     } else {
       document.getElementById("result").innerHTML = `
         <p>Error: ${data.error}</p>
       `;
     }
+
     document.querySelector(".result-container").scrollIntoView({
       behavior: "smooth",
       block: "end"
