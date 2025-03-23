@@ -145,13 +145,15 @@ body {
   right: 200px;
 }
 
-
+.h2 {
+  font-family: 'Playfair Display', serif;
+}
 
 .decorations .seaweed-left {
   position: absolute;
   bottom: -32px;
   left: 50px;
-  width: 350px;
+  width: 200px;
   height: auto;
 }
 
@@ -159,7 +161,7 @@ body {
   position: absolute;
   bottom: -32px;
   right: 50px;
-  width: 350px;
+  width: 200px;
   height: auto;
 }
 
