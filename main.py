@@ -1,12 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pickle
-import requests
 import random
-import base64
-from io import BytesIO
+import torch
 from PIL import Image
+from io import BytesIO
+import base64
+from diffusers import StableDiffusionPipeline
+import requests
+from huggingface_hub import login
 
+login(token="")
 app = Flask(__name__)
 CORS(app)
 
@@ -17,10 +21,11 @@ with open('model_pkl', 'rb') as file:
 with open('panel_model', 'rb') as file2:
     model2 = pickle.load(file2)
 
-# Hugging Face API details
-HUGGINGFACE_API_KEY = ''  # Replace with your Hugging Face API key
-HUGGINGFACE_API_URL = 'https://api-inference.huggingface.co/models/CompVis/stable-diffusion-v1-5'
+# Load Stable Diffusion model using diffusers
+pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4",torch_dtype = torch.float16)
+pipe.to("cuda" if torch.cuda.is_available() else "cpu")
 
+# Algae and panel dictionaries
 algae_dict = {0: "Chlorella", 1: "Dunaliella", 2: "Haematococcus", 3: "Scenedesmus", 4: "Spirulina"}
 panel_dict = {0: "Flat Panel", 1: "Tubular", 4: "Vertical Column", 5: "V-Shaped"}
 
@@ -70,32 +75,23 @@ def simulate_water_quality(location):
         "bod": round(random.uniform(1, 100), 5)
     }
 
-# Updated image generation function using Hugging Face API
+# Image generation function using diffusers' StableDiffusionPipeline
 def generate_image(algae_type, panel_type, algae_amount, wall_area):
     prompt = f"An illustration of a build's outside wall with algae type {algae_type} grown on a {panel_type} panel. " \
              f"Algae Amount {algae_amount} and Wall Area {wall_area}"
 
-    headers = {
-        "Authorization": f"Bearer {HUGGINGFACE_API_KEY}",
-        "Content-Type": "application/json"
-    }
+    # Generate the image using the pipeline
+    image = pipe(prompt,guidance_scale = 8.5).images[0]
 
-    data = {
-        "inputs": prompt
-    }
+    # Convert image to byte stream
+    img_byte_arr = BytesIO()
+    image.save(img_byte_arr, format="PNG")
+    img_byte_arr.seek(0)
 
-    # Make the API request to generate the image
-    response = requests.post(HUGGINGFACE_API_URL, headers=headers, json=data)
-    print("Response Status Code:", response.status_code)
-    print("Response Content:", response.text)
-    
-    if response.status_code != 200:
-        return None
+    # Convert byte stream to base64 string
+    img_base64 = base64.b64encode(img_byte_arr.read()).decode('utf-8')
 
-    # Get the generated image (base64 encoded) from the response
-    image_base64 = response.json()[0]['generated_image']
-
-    return image_base64
+    return img_base64
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -128,7 +124,7 @@ def predict():
     panel_pred = model2.predict([[algae_amount, wall_area, weather["temperature"], weather["sunlight_hours"], algae_pred]])[0]
     panel_type = panel_dict[panel_pred]
 
-    # Generate image based on the prediction using Hugging Face API
+    # Generate image based on the prediction using diffusers
     image_base64 = generate_image(algae_type, panel_type, algae_amount, wall_area)
 
     response = {
